@@ -2,10 +2,20 @@ extends KinematicBody2D
 
 export var speed = 30
 
-var extended = false
-var shrinked = false
+var state = 0 # 0-Normal 1-Extend 2-Shrink
+var time = 0.0
+var resume = false
 
 onready var target_y = position.y
+
+func _process(delta):
+	if time > 0:
+		time -= 1 * delta
+	else:
+		time = 0
+		if not resume:
+			resume()
+			resume = true
 
 func _physics_process(_delta):
 	var target = get_viewport().get_mouse_position().x
@@ -18,42 +28,28 @@ func _physics_process(_delta):
 	
 	position.x += s*t
 
+func resume():
+	$Tween.interpolate_property(self, "scale", scale, Vector2(0.2, 0.2), 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	$Tween.start()
+	state = 0
+
 func extend():
-	if extended == false:
+	if state != 1:
 		$Tween.interpolate_property(self, "scale", scale, Vector2(0.35, 0.2), 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		$Tween.start()
-		extended = true
-		
-		var t = Timer.new()
-		t.set_wait_time(10)
-		t.set_one_shot(true)
-		self.add_child(t)
-		t.start()
-		yield(t, "timeout")
-		
-		if shrinked == false:
-			$Tween.interpolate_property(self, "scale", scale, Vector2(0.2, 0.2), 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-			$Tween.start()
-			extended = false
-		
-		t.queue_free()
+		state = 1
+		resume = false
+		time = 15.0
 		
 func shrink():
-	if shrinked == false:
+	if state != 2:
 		$Tween.interpolate_property(self, "scale", scale, Vector2(0.15, 0.2), 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
 		$Tween.start()
-		shrinked = true
+		state = 2
+		resume = false
+		time = 15.0
 		
-		var t = Timer.new()
-		t.set_wait_time(10)
-		t.set_one_shot(true)
-		self.add_child(t)
-		t.start()
-		yield(t, "timeout")
-		
-		if extended == false:
-			$Tween.interpolate_property(self, "scale", scale, Vector2(0.2, 0.2), 0.5, Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-			$Tween.start()
-			shrinked = false
-		
-		t.queue_free()
+func emit_particle(pos):
+	get_parent().find_node("Particles2D").global_position = pos
+	get_parent().find_node("Particles2D").emitting = true
+	get_parent().find_node("Particles2D").look_at(pos)

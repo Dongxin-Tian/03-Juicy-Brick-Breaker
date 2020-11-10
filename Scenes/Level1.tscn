@@ -1,0 +1,632 @@
+[gd_scene load_steps=45 format=2]
+
+[ext_resource path="res://Assets/Datalegreya-Thin.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scenes/BrickColor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sprites/Paddle.png" type="Texture" id=3]
+[ext_resource path="res://Audio/music.ogg" type="AudioStream" id=4]
+[ext_resource path="res://Audio/brick.wav" type="AudioStream" id=5]
+[ext_resource path="res://Audio/wall.wav" type="AudioStream" id=6]
+[ext_resource path="res://Audio/paddle.wav" type="AudioStream" id=7]
+[ext_resource path="res://Scripts/Paddle.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/Controller.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/WorldEnvironment.gd" type="Script" id=10]
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/Background.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/LevelTitle.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/Ball.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Assets/bubble.png" type="Texture" id=16]
+[ext_resource path="res://Scripts/Walls.gd" type="Script" id=17]
+[ext_resource path="res://Assets/confetti.png" type="Texture" id=18]
+
+[sub_resource type="Environment" id=15]
+glow_enabled = true
+glow_bloom = 0.15
+glow_blend_mode = 0
+glow_hdr_threshold = 0.5
+glow_bicubic_upscale = true
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 485, 128 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 485, 0, 485, 128 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 970, 0, 485, 128 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 116.06, 63.6616 )
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 78.6028, 58.2458 )
+
+[sub_resource type="Curve" id=29]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, -360 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=30]
+curve = SubResource( 29 )
+
+[sub_resource type="Gradient" id=31]
+offsets = PoolRealArray( 0, 0.451429, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=32]
+gradient = SubResource( 31 )
+
+[sub_resource type="Curve" id=33]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.497436, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=34]
+curve = SubResource( 33 )
+
+[sub_resource type="ParticlesMaterial" id=35]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 60.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 450.0
+initial_velocity_random = 0.75
+angular_velocity = 100.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle_random = 0.5
+angle_curve = SubResource( 30 )
+scale = 0.5
+scale_random = 0.5
+scale_curve = SubResource( 34 )
+color_ramp = SubResource( 32 )
+hue_variation = 0.7
+hue_variation_random = 0.25
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 54.1757, 365.572 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 548.05, 81.969 )
+
+[sub_resource type="Gradient" id=21]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=22]
+gradient = SubResource( 21 )
+
+[sub_resource type="Curve" id=23]
+min_value = -1.0
+_data = [ Vector2( 0.0314465, -1 ), 0.0, 0.0, 0, 0, Vector2( 0.493711, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, -1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=24]
+curve = SubResource( 23 )
+
+[sub_resource type="Curve" id=25]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=26]
+curve = SubResource( 25 )
+
+[sub_resource type="ParticlesMaterial" id=27]
+flag_disable_z = true
+spread = 75.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 300.0
+linear_accel_random = 1.0
+radial_accel = 100.0
+radial_accel_random = 1.0
+scale = 0.25
+scale_random = 0.5
+scale_curve = SubResource( 26 )
+color_ramp = SubResource( 22 )
+hue_variation = 0.1
+hue_variation_random = 0.5
+hue_variation_curve = SubResource( 24 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 646.461, 77.5284 )
+
+[sub_resource type="StyleBoxEmpty" id=16]
+
+[sub_resource type="DynamicFont" id=17]
+size = 64
+outline_size = 1
+font_data = ExtResource( 1 )
+
+[node name="Game" type="Node2D"]
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="bgm" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 4 )
+
+[node name="se_paddle" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 7 )
+
+[node name="se_wall" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 6 )
+
+[node name="se_brick" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 5 )
+
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource( 11 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 15 )
+script = ExtResource( 10 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -13.0
+margin_top = -11.0702
+margin_right = 1044.0
+margin_bottom = 629.93
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="ColorRect"]
+
+[node name="PaddleContainer" type="Node2D" parent="."]
+
+[node name="Paddle" type="KinematicBody2D" parent="PaddleContainer"]
+position = Vector2( 500, 500 )
+scale = Vector2( 0.2, 0.2 )
+script = ExtResource( 8 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="PaddleContainer/Paddle"]
+frames = SubResource( 4 )
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleContainer/Paddle"]
+scale = Vector2( 0.999999, 0.999999 )
+shape = SubResource( 19 )
+
+[node name="Right" type="CollisionShape2D" parent="PaddleContainer/Paddle"]
+position = Vector2( 154.758, 26.2798 )
+rotation = 0.523599
+scale = Vector2( 1, 1 )
+shape = SubResource( 20 )
+
+[node name="Left" type="CollisionShape2D" parent="PaddleContainer/Paddle"]
+position = Vector2( -154.341, 25.4453 )
+rotation = -0.523599
+scale = Vector2( 1, 1 )
+shape = SubResource( 20 )
+
+[node name="Tween" type="Tween" parent="PaddleContainer/Paddle"]
+
+[node name="Particles2D" type="Particles2D" parent="PaddleContainer"]
+position = Vector2( 507, 700 )
+emitting = false
+amount = 6
+lifetime = 0.4
+one_shot = true
+process_material = SubResource( 35 )
+texture = ExtResource( 18 )
+
+[node name="ItemContainer" type="Node2D" parent="."]
+
+[node name="BallContainer" type="Node2D" parent="."]
+
+[node name="Ball" parent="BallContainer" instance=ExtResource( 14 )]
+position = Vector2( 490, 450 )
+
+[node name="Walls" type="StaticBody2D" parent="."]
+script = ExtResource( 17 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2( -53.5143, 297.302 )
+shape = SubResource( 13 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2( 1077.51, 297.302 )
+shape = SubResource( 13 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+position = Vector2( 508.498, -81.9563 )
+shape = SubResource( 14 )
+
+[node name="Particles2D" type="Particles2D" parent="Walls"]
+emitting = false
+lifetime = 0.4
+one_shot = true
+process_material = SubResource( 27 )
+texture = ExtResource( 16 )
+
+[node name="Bricks" type="Node2D" parent="."]
+scale = Vector2( 0.2, 0.2 )
+
+[node name="Row 1" type="Node2D" parent="Bricks"]
+position = Vector2( 50, 0 )
+
+[node name="BrickColor" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 300, 150 )
+
+[node name="BrickColor2" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 700, 150 )
+
+[node name="BrickColor3" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 1100, 150 )
+
+[node name="BrickColor4" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 1500, 150 )
+
+[node name="BrickColor5" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 1900, 150 )
+
+[node name="BrickColor6" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 2300, 150 )
+
+[node name="BrickColor7" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 2700, 150 )
+
+[node name="BrickColor8" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 3100, 150 )
+
+[node name="BrickColor9" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 3500, 150 )
+
+[node name="BrickColor10" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 3900, 150 )
+
+[node name="BrickColor11" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 4300, 150 )
+
+[node name="BrickColor12" parent="Bricks/Row 1" instance=ExtResource( 2 )]
+position = Vector2( 4700, 150 )
+
+[node name="Row 2" type="Node2D" parent="Bricks"]
+position = Vector2( 50, 150 )
+
+[node name="BrickColor" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 300, 150 )
+colorIndex = 1
+
+[node name="BrickColor2" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 700, 150 )
+colorIndex = 1
+
+[node name="BrickColor3" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 1100, 150 )
+colorIndex = 1
+
+[node name="BrickColor4" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 1500, 150 )
+colorIndex = 1
+
+[node name="BrickColor5" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 1900, 150 )
+colorIndex = 1
+
+[node name="BrickColor6" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 2300, 150 )
+colorIndex = 1
+
+[node name="BrickColor7" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 2700, 150 )
+colorIndex = 1
+
+[node name="BrickColor8" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 3100, 150 )
+colorIndex = 1
+
+[node name="BrickColor9" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 3500, 150 )
+colorIndex = 1
+
+[node name="BrickColor10" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 3900, 150 )
+colorIndex = 1
+
+[node name="BrickColor11" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 4300, 150 )
+colorIndex = 1
+
+[node name="BrickColor12" parent="Bricks/Row 2" instance=ExtResource( 2 )]
+position = Vector2( 4700, 150 )
+colorIndex = 1
+
+[node name="Row 3" type="Node2D" parent="Bricks"]
+position = Vector2( 50, 300 )
+
+[node name="BrickColor" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 300, 150 )
+colorIndex = 2
+
+[node name="BrickColor2" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 700, 150 )
+colorIndex = 2
+
+[node name="BrickColor3" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 1100, 150 )
+colorIndex = 2
+
+[node name="BrickColor4" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 1500, 150 )
+colorIndex = 2
+
+[node name="BrickColor5" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 1900, 150 )
+colorIndex = 2
+
+[node name="BrickColor6" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 2300, 150 )
+colorIndex = 2
+
+[node name="BrickColor7" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 2700, 150 )
+colorIndex = 2
+
+[node name="BrickColor8" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 3100, 150 )
+colorIndex = 2
+
+[node name="BrickColor9" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 3500, 150 )
+colorIndex = 2
+
+[node name="BrickColor10" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 3900, 150 )
+colorIndex = 2
+
+[node name="BrickColor11" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 4300, 150 )
+colorIndex = 2
+
+[node name="BrickColor12" parent="Bricks/Row 3" instance=ExtResource( 2 )]
+position = Vector2( 4700, 150 )
+colorIndex = 2
+
+[node name="Row 4" type="Node2D" parent="Bricks"]
+position = Vector2( 50, 450 )
+
+[node name="BrickColor" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 300, 150 )
+colorIndex = 3
+
+[node name="BrickColor2" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 700, 150 )
+colorIndex = 3
+
+[node name="BrickColor3" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 1100, 150 )
+colorIndex = 3
+
+[node name="BrickColor4" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 1500, 150 )
+colorIndex = 3
+
+[node name="BrickColor5" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 1900, 150 )
+colorIndex = 3
+
+[node name="BrickColor6" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 2300, 150 )
+colorIndex = 3
+
+[node name="BrickColor7" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 2700, 150 )
+colorIndex = 3
+
+[node name="BrickColor8" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 3100, 150 )
+colorIndex = 3
+
+[node name="BrickColor9" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 3500, 150 )
+colorIndex = 3
+
+[node name="BrickColor10" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 3900, 150 )
+colorIndex = 3
+
+[node name="BrickColor11" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 4300, 150 )
+colorIndex = 3
+
+[node name="BrickColor12" parent="Bricks/Row 4" instance=ExtResource( 2 )]
+position = Vector2( 4700, 150 )
+colorIndex = 3
+
+[node name="Row 5" type="Node2D" parent="Bricks"]
+position = Vector2( 50, 600 )
+
+[node name="BrickColor" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 300, 150 )
+colorIndex = 4
+
+[node name="BrickColor2" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 700, 150 )
+colorIndex = 4
+
+[node name="BrickColor3" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 1100, 150 )
+colorIndex = 4
+
+[node name="BrickColor4" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 1500, 150 )
+colorIndex = 4
+
+[node name="BrickColor5" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 1900, 150 )
+colorIndex = 4
+
+[node name="BrickColor6" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 2300, 150 )
+colorIndex = 4
+
+[node name="BrickColor7" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 2700, 150 )
+colorIndex = 4
+
+[node name="BrickColor8" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 3100, 150 )
+colorIndex = 4
+
+[node name="BrickColor9" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 3500, 150 )
+colorIndex = 4
+
+[node name="BrickColor10" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 3900, 150 )
+colorIndex = 4
+
+[node name="BrickColor11" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 4300, 150 )
+colorIndex = 4
+
+[node name="BrickColor12" parent="Bricks/Row 5" instance=ExtResource( 2 )]
+position = Vector2( 4700, 150 )
+colorIndex = 4
+
+[node name="Row 6" type="Node2D" parent="Bricks"]
+position = Vector2( 50, 750 )
+
+[node name="BrickColor" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 300, 150 )
+colorIndex = 5
+
+[node name="BrickColor2" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 700, 150 )
+colorIndex = 5
+
+[node name="BrickColor3" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 1100, 150 )
+colorIndex = 5
+
+[node name="BrickColor4" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 1500, 150 )
+colorIndex = 5
+
+[node name="BrickColor5" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 1900, 150 )
+colorIndex = 5
+
+[node name="BrickColor6" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 2300, 150 )
+colorIndex = 5
+
+[node name="BrickColor7" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 2700, 150 )
+colorIndex = 5
+
+[node name="BrickColor8" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 3100, 150 )
+colorIndex = 5
+
+[node name="BrickColor9" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 3500, 150 )
+colorIndex = 5
+
+[node name="BrickColor10" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 3900, 150 )
+colorIndex = 5
+
+[node name="BrickColor11" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 4300, 150 )
+colorIndex = 5
+
+[node name="BrickColor12" parent="Bricks/Row 6" instance=ExtResource( 2 )]
+position = Vector2( 4700, 150 )
+colorIndex = 5
+
+[node name="Row 7" type="Node2D" parent="Bricks"]
+position = Vector2( 50, 900 )
+
+[node name="BrickColor" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 300, 150 )
+colorIndex = 6
+
+[node name="BrickColor2" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 700, 150 )
+colorIndex = 6
+
+[node name="BrickColor3" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 1100, 150 )
+colorIndex = 6
+
+[node name="BrickColor4" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 1500, 150 )
+colorIndex = 6
+
+[node name="BrickColor5" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 1900, 150 )
+colorIndex = 6
+
+[node name="BrickColor6" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 2300, 150 )
+colorIndex = 6
+
+[node name="BrickColor7" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 2700, 150 )
+colorIndex = 6
+
+[node name="BrickColor8" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 3100, 150 )
+colorIndex = 6
+
+[node name="BrickColor9" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 3500, 150 )
+colorIndex = 6
+
+[node name="BrickColor10" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 3900, 150 )
+colorIndex = 6
+
+[node name="BrickColor11" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 4300, 150 )
+colorIndex = 6
+
+[node name="BrickColor12" parent="Bricks/Row 7" instance=ExtResource( 2 )]
+position = Vector2( 4700, 150 )
+colorIndex = 6
+
+[node name="LoseArea" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LoseArea"]
+position = Vector2( 519.016, 681.651 )
+shape = SubResource( 18 )
+
+[node name="LevelTitle" type="Node2D" parent="."]
+position = Vector2( 750, 0 )
+script = ExtResource( 13 )
+
+[node name="Tween" type="Tween" parent="LevelTitle"]
+
+[node name="Text" type="TextEdit" parent="LevelTitle"]
+margin_left = 413.0
+margin_top = 178.0
+margin_right = 651.0
+margin_bottom = 266.0
+custom_styles/normal = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
+text = "Level 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Controller" type="Node2D" parent="."]
+script = ExtResource( 9 )
+brickNumber = 84
+
+[node name="UI" parent="." instance=ExtResource( 15 )]

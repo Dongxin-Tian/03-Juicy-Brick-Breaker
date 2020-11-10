@@ -1,0 +1,566 @@
+[gd_scene load_steps=49 format=2]
+
+[ext_resource path="res://Assets/Datalegreya-Thin.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scripts/Rotate.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/Paddle.png" type="Texture" id=3]
+[ext_resource path="res://Audio/music.ogg" type="AudioStream" id=4]
+[ext_resource path="res://Audio/brick.wav" type="AudioStream" id=5]
+[ext_resource path="res://Audio/wall.wav" type="AudioStream" id=6]
+[ext_resource path="res://Audio/paddle.wav" type="AudioStream" id=7]
+[ext_resource path="res://Scripts/Paddle.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/Controller.gd" type="Script" id=9]
+[ext_resource path="res://Scripts/WorldEnvironment.gd" type="Script" id=10]
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/Background.gd" type="Script" id=12]
+[ext_resource path="res://Scripts/LevelTitle.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/Ball.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Sprites/Lime.png" type="Texture" id=16]
+[ext_resource path="res://Scenes/Brick.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Sprites/LimeCracked.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/Orange.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/OrangeCracked.png" type="Texture" id=20]
+[ext_resource path="res://Scripts/Walls.gd" type="Script" id=21]
+[ext_resource path="res://Assets/bubble.png" type="Texture" id=22]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 485, 128 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 485, 0, 485, 128 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 970, 0, 485, 128 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 116.06, 63.6616 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 78.6028, 58.2458 )
+
+[sub_resource type="Curve" id=7]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, -360 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="Gradient" id=9]
+offsets = PoolRealArray( 0, 0.451429, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=10]
+gradient = SubResource( 9 )
+
+[sub_resource type="Curve" id=11]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.497436, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=12]
+curve = SubResource( 11 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 60.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 450.0
+initial_velocity_random = 0.75
+angular_velocity = 100.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle_random = 0.5
+angle_curve = SubResource( 8 )
+scale = 0.5
+scale_random = 0.5
+scale_curve = SubResource( 12 )
+color_ramp = SubResource( 10 )
+hue_variation = 0.7
+hue_variation_random = 0.25
+
+[sub_resource type="Gradient" id=20]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=21]
+gradient = SubResource( 20 )
+
+[sub_resource type="Curve" id=22]
+min_value = -1.0
+_data = [ Vector2( 0.0314465, -1 ), 0.0, 0.0, 0, 0, Vector2( 0.493711, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, -1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=23]
+curve = SubResource( 22 )
+
+[sub_resource type="Curve" id=24]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=25]
+curve = SubResource( 24 )
+
+[sub_resource type="ParticlesMaterial" id=26]
+flag_disable_z = true
+spread = 75.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 300.0
+linear_accel_random = 1.0
+radial_accel = 100.0
+radial_accel_random = 1.0
+scale = 0.25
+scale_random = 0.5
+scale_curve = SubResource( 25 )
+color_ramp = SubResource( 21 )
+hue_variation = 0.1
+hue_variation_random = 0.5
+hue_variation_curve = SubResource( 23 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 54.1757, 365.572 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 548.05, 81.969 )
+
+[sub_resource type="Environment" id=16]
+glow_enabled = true
+glow_bloom = 0.15
+glow_blend_mode = 0
+glow_hdr_threshold = 0.5
+glow_bicubic_upscale = true
+
+[sub_resource type="StyleBoxEmpty" id=17]
+
+[sub_resource type="DynamicFont" id=18]
+size = 64
+outline_size = 1
+font_data = ExtResource( 1 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 646.461, 77.5284 )
+
+[node name="Game" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -13.0
+margin_top = -11.0702
+margin_right = 1044.0
+margin_bottom = 629.93
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="ColorRect"]
+
+[node name="PaddleContainer" type="Node2D" parent="."]
+
+[node name="Paddle" type="KinematicBody2D" parent="PaddleContainer"]
+position = Vector2( 500, 500 )
+scale = Vector2( 0.2, 0.2 )
+script = ExtResource( 8 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="PaddleContainer/Paddle"]
+frames = SubResource( 4 )
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaddleContainer/Paddle"]
+scale = Vector2( 0.999999, 0.999999 )
+shape = SubResource( 5 )
+
+[node name="Right" type="CollisionShape2D" parent="PaddleContainer/Paddle"]
+position = Vector2( 154.758, 26.2798 )
+rotation = 0.523599
+shape = SubResource( 6 )
+
+[node name="Left" type="CollisionShape2D" parent="PaddleContainer/Paddle"]
+position = Vector2( -154.341, 25.4453 )
+rotation = -0.523599
+shape = SubResource( 6 )
+
+[node name="Tween" type="Tween" parent="PaddleContainer/Paddle"]
+
+[node name="Particles2D" type="Particles2D" parent="PaddleContainer"]
+position = Vector2( 507, 700 )
+emitting = false
+amount = 6
+lifetime = 0.4
+one_shot = true
+process_material = SubResource( 13 )
+
+[node name="ItemContainer" type="Node2D" parent="."]
+
+[node name="BallContainer" type="Node2D" parent="."]
+
+[node name="Ball" parent="BallContainer" instance=ExtResource( 14 )]
+position = Vector2( 490, 450 )
+
+[node name="Audio" type="Node2D" parent="."]
+
+[node name="bgm" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 4 )
+
+[node name="se_paddle" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 7 )
+
+[node name="se_wall" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 6 )
+
+[node name="se_brick" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 5 )
+
+[node name="Walls" type="StaticBody2D" parent="."]
+script = ExtResource( 21 )
+
+[node name="Particles2D" type="Particles2D" parent="Walls"]
+position = Vector2( -53.5143, 297.302 )
+emitting = false
+lifetime = 0.4
+one_shot = true
+process_material = SubResource( 26 )
+texture = ExtResource( 22 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls"]
+position = Vector2( -53.5143, 297.302 )
+shape = SubResource( 14 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls"]
+position = Vector2( 1077.51, 297.302 )
+shape = SubResource( 14 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Walls"]
+position = Vector2( 508.498, -81.9563 )
+shape = SubResource( 15 )
+
+[node name="Bricks" type="KinematicBody2D" parent="."]
+position = Vector2( 512, 200 )
+script = ExtResource( 2 )
+
+[node name="Brick" parent="Bricks" instance=ExtResource( 17 )]
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 16 )
+cracked = ExtResource( 18 )
+
+[node name="Brick2" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( -50, 0 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick3" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 50, 0 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick4" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 0, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick5" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 50, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick6" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( -50, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick13" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 0, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick14" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 50, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick15" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( -50, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick7" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 0, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick8" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 50, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick9" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( -50, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick10" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 0, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick11" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( 50, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick12" parent="Bricks" instance=ExtResource( 17 )]
+position = Vector2( -50, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Bricks2" type="KinematicBody2D" parent="."]
+position = Vector2( 200, 200 )
+script = ExtResource( 2 )
+
+[node name="Brick" parent="Bricks2" instance=ExtResource( 17 )]
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 16 )
+cracked = ExtResource( 18 )
+
+[node name="Brick2" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( -50, 0 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick3" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 50, 0 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick4" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 0, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick5" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 50, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick6" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( -50, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick13" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 0, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick14" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 50, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick15" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( -50, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick7" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 0, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick8" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 50, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick9" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( -50, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick10" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 0, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick11" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( 50, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick12" parent="Bricks2" instance=ExtResource( 17 )]
+position = Vector2( -50, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Bricks3" type="KinematicBody2D" parent="."]
+position = Vector2( 824, 200 )
+script = ExtResource( 2 )
+
+[node name="Brick" parent="Bricks3" instance=ExtResource( 17 )]
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 16 )
+cracked = ExtResource( 18 )
+
+[node name="Brick2" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( -50, 0 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick3" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 50, 0 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick4" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 0, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick5" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 50, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick6" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( -50, 25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick13" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 0, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick14" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 50, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick15" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( -50, 50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick7" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 0, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick8" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 50, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick9" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( -50, -25 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick10" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 0, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick11" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( 50, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Brick12" parent="Bricks3" instance=ExtResource( 17 )]
+position = Vector2( -50, -50 )
+scale = Vector2( 0.2, 0.2 )
+brick = ExtResource( 19 )
+cracked = ExtResource( 20 )
+
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource( 11 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 16 )
+script = ExtResource( 10 )
+
+[node name="LevelTitle" type="Node2D" parent="."]
+position = Vector2( 750, 0 )
+script = ExtResource( 13 )
+
+[node name="Tween" type="Tween" parent="LevelTitle"]
+
+[node name="Text" type="TextEdit" parent="LevelTitle"]
+margin_left = 413.0
+margin_top = 178.0
+margin_right = 651.0
+margin_bottom = 266.0
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
+text = "Level EX"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoseArea" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LoseArea"]
+position = Vector2( 519.016, 681.651 )
+shape = SubResource( 19 )
+
+[node name="Controller" type="Node2D" parent="."]
+script = ExtResource( 9 )
+brickNumber = 45
+
+[node name="UI" parent="." instance=ExtResource( 15 )]
